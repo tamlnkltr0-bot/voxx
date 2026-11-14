@@ -1,0 +1,2 @@
+# Keep the build script LF-only so it runs on Linux/macOS.
+*.sh text eol=lf
