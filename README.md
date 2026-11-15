@@ -22,7 +22,7 @@ Takes about 10 minutes, using the TV remote only.
      **Settings → System → About** and click **Android TV OS build** 7 times, then look again.
 3. **Download the app.** Open Downloader, select the address box and type:
    ```
-   1048760
+   1379880
    ```
    Then press **Go**. This link always gets the newest version.
 4. **Install.** When asked, choose **Install**.
