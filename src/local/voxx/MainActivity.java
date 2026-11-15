@@ -17,6 +17,7 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -38,7 +39,7 @@ public class MainActivity extends Activity {
     private static final int BORDER = Color.rgb(41, 55, 83);
     private static final int ROW = Color.rgb(31, 42, 65);
     private static final int ROW_FOCUS = Color.rgb(44, 61, 97);
-    private static final int ACCENT = Color.rgb(122, 170, 255);
+    private static final int ACCENT = Color.rgb(230, 190, 128);
     private static final int TEXT = Color.rgb(232, 238, 248);
     private static final int TEXT_DIM = Color.rgb(140, 157, 189);
     private static final int GREEN = Color.rgb(126, 217, 160);
@@ -62,18 +63,21 @@ public class MainActivity extends Activity {
         panel.setPadding(dp(34), dp(22), dp(34), dp(22));
         panel.setElevation(dp(14));
 
-        TextView title = new TextView(this);
-        title.setText("VOXX");
-        title.setTextSize(28);
-        title.setTextColor(Color.WHITE);
-        panel.addView(title);
+        // Brand lockup (VOXX wordmark + "AUDIO CLARITY" tagline), drawn from the supplied artwork.
+        ImageView brand = new ImageView(this);
+        brand.setImageResource(R.drawable.logo);
+        brand.setAdjustViewBounds(true);
+        brand.setScaleType(ImageView.ScaleType.FIT_START);
+        LinearLayout.LayoutParams brandLp = new LinearLayout.LayoutParams(
+                dp(272), LinearLayout.LayoutParams.WRAP_CONTENT);
+        panel.addView(brand, brandLp);
 
         TextView subtitle = new TextView(this);
         subtitle.setText("Evens out loud action and quiet dialogue for every app. "
                 + "Press \u25c0 \u25b6 to change a setting.");
         subtitle.setTextSize(14);
         subtitle.setTextColor(TEXT_DIM);
-        subtitle.setPadding(0, dp(4), 0, 0);
+        subtitle.setPadding(0, dp(12), 0, 0);
         panel.addView(subtitle);
 
         panel.addView(divider(dp(12), dp(12)));
