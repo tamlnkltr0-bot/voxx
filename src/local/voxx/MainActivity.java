@@ -19,6 +19,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import java.util.Locale;
@@ -60,7 +61,7 @@ public class MainActivity extends Activity {
         LinearLayout panel = new LinearLayout(this);
         panel.setOrientation(LinearLayout.VERTICAL);
         panel.setBackground(rounded(PANEL, 22, 1, BORDER));
-        panel.setPadding(dp(34), dp(22), dp(34), dp(22));
+        panel.setPadding(dp(32), dp(18), dp(32), dp(18));
         panel.setElevation(dp(14));
 
         // Brand lockup (VOXX wordmark + "AUDIO CLARITY" tagline), drawn from the supplied artwork.
@@ -69,7 +70,7 @@ public class MainActivity extends Activity {
         brand.setAdjustViewBounds(true);
         brand.setScaleType(ImageView.ScaleType.FIT_START);
         LinearLayout.LayoutParams brandLp = new LinearLayout.LayoutParams(
-                dp(272), LinearLayout.LayoutParams.WRAP_CONTENT);
+                dp(206), LinearLayout.LayoutParams.WRAP_CONTENT);
         panel.addView(brand, brandLp);
 
         TextView subtitle = new TextView(this);
@@ -77,10 +78,10 @@ public class MainActivity extends Activity {
                 + "Press \u25c0 \u25b6 to change a setting.");
         subtitle.setTextSize(14);
         subtitle.setTextColor(TEXT_DIM);
-        subtitle.setPadding(0, dp(12), 0, 0);
+        subtitle.setPadding(0, dp(8), 0, 0);
         panel.addView(subtitle);
 
-        panel.addView(divider(dp(12), dp(12)));
+        panel.addView(divider(dp(10), dp(10)));
 
         // Settings on the left, status and box check on the right.
         LinearLayout columns = new LinearLayout(this);
@@ -97,7 +98,7 @@ public class MainActivity extends Activity {
         liftVal = makeSetting(settings, ID_LIFT, "Voice boost", true);
         bassVal = makeSetting(settings, ID_BASS, "Bass cut", true);
 
-        settings.addView(divider(dp(6), dp(12)));
+        settings.addView(divider(dp(4), dp(10)));
 
         makeAction(settings, "Re-attach effect", () -> push(true));
         makeAction(settings, "Check TV box settings",
@@ -124,10 +125,24 @@ public class MainActivity extends Activity {
         setup.setLineSpacing(dp(4), 1f);
         info.addView(setup);
 
+        // The card is centred when it fits; if the TV viewport is short, it scrolls so no row is
+        // ever pushed off-screen (the D-pad scrolls the focused row into view).
+        FrameLayout holder = new FrameLayout(this);
+        holder.setPadding(0, dp(8), 0, dp(8));
         FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(
                 panelWidth(), LinearLayout.LayoutParams.WRAP_CONTENT);
         lp.gravity = Gravity.CENTER;
-        root.addView(panel, lp);
+        holder.addView(panel, lp);
+
+        ScrollView scroll = new ScrollView(this);
+        scroll.setFillViewport(true);
+        scroll.setVerticalScrollBarEnabled(false);
+        scroll.setClipToPadding(false);
+        scroll.addView(holder, new ScrollView.LayoutParams(
+                ScrollView.LayoutParams.MATCH_PARENT, ScrollView.LayoutParams.WRAP_CONTENT));
+
+        root.addView(scroll, new FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
 
         setContentView(root);
         powerVal.requestFocus();
@@ -209,7 +224,7 @@ public class MainActivity extends Activity {
         row.setBackground(rowBackground());
         row.setFocusable(true);
         row.setClickable(true);
-        row.setPadding(dp(20), dp(12), dp(20), dp(12));
+        row.setPadding(dp(20), dp(10), dp(20), dp(10));
 
         TextView name = new TextView(this);
         name.setText(label);
@@ -224,7 +239,7 @@ public class MainActivity extends Activity {
     private void addRow(LinearLayout parent, View row) {
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        lp.bottomMargin = dp(8);
+        lp.bottomMargin = dp(6);
         parent.addView(row, lp);
     }
 
